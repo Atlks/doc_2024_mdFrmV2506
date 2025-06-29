@@ -1,0 +1,68 @@
+聚合算法实现。请问如何实现 函数  createSearchResponse(SearchRequest searchRequest, List<Map<String, Object>> li)
+
+其他代码如下
+  public void aggregateSumOfAmt() {
+
+        RestHighLevelClient client=getRestHighLevelClient("");
+        // 创建搜索请求
+        SearchRequest searchRequest = new SearchRequest("myidx");
+
+        // 创建聚合查询，计算字段 amt 的和
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        SumAggregationBuilder SumAggregationBuilder1 = AggregationBuilders.sum("total_amt").field("amt");
+        searchSourceBuilder.aggregation(SumAggregationBuilder1);
+
+        // 设置查询源
+        searchRequest.source(searchSourceBuilder);
+
+
+        try {
+            // 执行搜索请求
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+            // 获取聚合结果
+            // 获取聚合结果
+            Sum sum = searchResponse.getAggregations().get("total_amt");
+
+            // 输出聚合结果
+            System.out.println("Total Sum of amt: " + sum.getValue());
+
+            // 输出聚合结果
+            System.out.println("Total Sum of amt: " + totalAmt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	
+	
+	   public final SearchResponse search(SearchRequest searchRequest, RequestOptions options) throws IOException {
+
+        String esDir = envVars.get("esDir").toString();
+        String[] idxs = searchRequest.indices();
+        String idx = idxs[0];
+        String dir = esDir + "/" + idx;
+        // 创建一个 File 对象
+        File directory = new File(dir);
+        // 获取文件列表
+        File[] files = directory.listFiles();
+
+
+        List<Map<String, Object>> li=   filesToJsonList(files);
+
+        // agg query
+
+        AggregatorFactories.Builder SearchSourceBuilder1=  searchRequest.source().aggregations();
+
+        if (SearchSourceBuilder1 == null) {
+          //  SearchSourceBuilder1.
+
+            SearchResponse res = createSearchResponse(searchRequest,li);
+
+            return res;
+        }
+		
+		
+		
+		 private SearchResponse createSearchResponse(SearchRequest searchRequest, List<Map<String, Object>> li) {
+    }

@@ -1,0 +1,59 @@
+指令码top100的设计 bp
+
+
+从中我们可以看到，跟JVM bytecode比起来:
+
+Ignition指令集非常丰富，比如判空指令丰富，比如GetIterator这种操作都有指令
+
+
+
+基本指令 数量统计约100个
+
+总共需要50个指令就够了吗？？
+
+	
+数据传输指令 等5个
+
+ Echo 
+
+
+
+运算指令 约 30个不到
+
+数组操作指令
+
+流程控制指令10个
+
+
+属性的访问
+Igintion提供LdaNamedProperty和StaNamedProperty指令来按名字访问属性。
+闭包的创建与调用
+函数通过CreateClosure指令来创建。
+分支跳转指令
+分支跳转指令分为两部分，一部分是Test类设置标志位，一部分是根据标志位跳转。
+由TestGreaterThan和JumpIfFalse两条指令构成。JumpIfFalse是如果为真继续执行，为假则跳转。
+
+判空运算符对应的是JumpIfUndefinedOrNull指令。
+
+TestNull和TestUndefined指令：
+
+
+
+处理异常
+异常是另外一种意义上的分支指令，但是涉及到异常上下文。
+CreateCatchContext提供创建异常上下文，然后通过PushContext和PopContext去切换上下文。
+
+
+循环指令
+循环指令
+它的实现方式跟分支语句基本类似，就是多了一条JumpLoop指令。
+
+
+针对迭代器模式，Ignition提供了GetIterator指令，然后就是各种异常的处理：
+
+
+
+
+JavaScript的字节码 - v8 Ignition指令 - 掘金
+Php opcode
+

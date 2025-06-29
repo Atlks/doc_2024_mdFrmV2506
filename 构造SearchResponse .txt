@@ -1,0 +1,51 @@
+
+实现函数    public static SearchResponse createSearchResponse(SearchHit[] searchHits)
+
+
+用到的代码如下
+
+
+
+    public SearchResponse(SearchResponseSections internalResponse, String scrollId, int totalShards, int successfulShards,
+                          int skippedShards, long tookInMillis, ShardSearchFailure[] shardFailures, Clusters clusters) {
+        this.internalResponse = internalResponse;
+        this.scrollId = scrollId;
+        this.clusters = clusters;
+        this.totalShards = totalShards;
+        this.successfulShards = successfulShards;
+        this.skippedShards = skippedShards;
+        this.tookInMillis = tookInMillis;
+        this.shardFailures = shardFailures;
+        assert skippedShards <= totalShards : "skipped: " + skippedShards + " total: " + totalShards;
+    }
+
+
+public class SearchResponseSections implements ToXContentFragment {
+
+    protected final SearchHits hits;
+	
+	    public SearchResponseSections(SearchHits hits, Aggregations aggregations, Suggest suggest, boolean timedOut, Boolean terminatedEarly,
+                                  SearchProfileShardResults profileResults,  int numReducePhases) {
+        this.hits = hits;
+        this.aggregations = aggregations;
+        this.suggest = suggest;
+        this.profileResults = profileResults;
+        this.timedOut = timedOut;
+        this.terminatedEarly = terminatedEarly;
+        this.numReducePhases = numReducePhases;
+    }
+	
+	
+	
+	
+	
+	public final class SearchHits implements Streamable, ToXContentFragment, Iterable<SearchHit> {
+
+    public static SearchHits empty() {
+        // We shouldn't use static final instance, since that could directly be returned by native transport clients
+        return new SearchHits(EMPTY, 0, 0);
+    }
+
+    public static final SearchHit[] EMPTY = new SearchHit[0];
+
+    private SearchHit[] hits;

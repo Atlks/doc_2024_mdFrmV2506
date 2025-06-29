@@ -1,0 +1,41 @@
+实现newsum
+
+实现函数  
+ private Sum newSum(String totalAmt, double totalAmt1) {
+
+
+    }
+	
+	
+	其他代码如下
+
+
+package org.elasticsearch.search.aggregations.metrics.sum;
+
+import org.elasticsearch.search.aggregations.metrics.NumericMetricsAggregation;
+
+/**
+ * An aggregation that computes the sum of the values in the current bucket.
+ */
+public interface Sum extends NumericMetricsAggregation.SingleValue {
+
+    /**
+     * The sum.
+     */
+    double getValue();
+}
+
+
+public interface NumericMetricsAggregation extends Aggregation {
+
+    interface SingleValue extends NumericMetricsAggregation {
+
+        double value();
+
+        String getValueAsString();
+
+    }
+
+    interface MultiValue extends NumericMetricsAggregation {
+    }
+}

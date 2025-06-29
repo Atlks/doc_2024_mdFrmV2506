@@ -1,0 +1,169 @@
+
+
+java 实现函数   newGetResponse(String  Source)
+
+
+
+调用范例
+
+    GetResponse response = client.get(request);
+            if (response.isExists()) {
+               return  response.getSourceAsString();
+
+
+
+public class GetResponse extends ActionResponse implements Iterable<DocumentField>, ToXContentObject {
+
+    GetResult getResult;
+
+    GetResponse() {
+    }
+
+    public GetResponse(GetResult getResult) {
+        this.getResult = getResult;
+    }
+
+    /**
+     * Does the document exists.
+     */
+    public boolean isExists() {
+        return getResult.isExists();
+    }
+
+    /**
+     * The index the document was fetched from.
+     */
+    public String getIndex() {
+        return getResult.getIndex();
+    }
+
+    /**
+     * The type of the document.
+     */
+    public String getType() {
+        return getResult.getType();
+    }
+
+    /**
+     * The id of the document.
+     */
+    public String getId() {
+        return getResult.getId();
+    }
+
+    /**
+     * The version of the doc.
+     */
+    public long getVersion() {
+        return getResult.getVersion();
+    }
+
+    /**
+     * The sequence number assigned to the last operation that has changed this document, if found.
+     */
+    public long getSeqNo() {
+        return getResult.getSeqNo();
+    }
+
+    /**
+     * The primary term of the last primary that has changed this document, if found.
+     */
+    public long getPrimaryTerm() {
+        return getResult.getPrimaryTerm();
+    }
+
+    /**
+     * The source of the document if exists.
+     */
+    public byte[] getSourceAsBytes() {
+        return getResult.source();
+    }
+
+    /**
+     * Returns the internal source bytes, as they are returned without munging (for example,
+     * might still be compressed).
+     */
+    public BytesReference getSourceInternal() {
+        return getResult.internalSourceRef();
+    }
+
+    /**
+     * Returns bytes reference, also un compress the source if needed.
+     */
+    public BytesReference getSourceAsBytesRef() {
+        return getResult.sourceRef();
+    }
+
+    /**
+     * Is the source empty (not available) or not.
+     */
+    public boolean isSourceEmpty() {
+        return getResult.isSourceEmpty();
+    }
+
+    /**
+     * The source of the document (as a string).
+     */
+    public String getSourceAsString() {
+        return getResult.sourceAsString();
+    }
+
+    /**
+     * The source of the document (As a map).
+     */
+    @SuppressWarnings({"unchecked"})
+    public Map<String, Object> getSourceAsMap() throws ElasticsearchParseException {
+        return getResult.sourceAsMap();
+    }
+
+
+
+
+
+public class GetResult implements Streamable, Iterable<DocumentField>, ToXContentObject {
+
+    public static final String _INDEX = "_index";
+    public static final String _TYPE = "_type";
+    public static final String _ID = "_id";
+    private static final String _VERSION = "_version";
+    private static final String _SEQ_NO = "_seq_no";
+    private static final String _PRIMARY_TERM = "_primary_term";
+    private static final String FOUND = "found";
+    private static final String FIELDS = "fields";
+
+    private String index;
+    private String type;
+    private String id;
+    private long version;
+    private long seqNo;
+    private long primaryTerm;
+    private boolean exists;
+    private Map<String, DocumentField> fields;
+    private Map<String, Object> sourceAsMap;
+    private BytesReference source;
+    private byte[] sourceAsBytes;
+
+    GetResult() {
+    }
+
+    public GetResult(String index, String type, String id, long seqNo, long primaryTerm, long version, boolean exists,
+                     BytesReference source, Map<String, DocumentField> fields) {
+        this.index = index;
+        this.type = type;
+        this.id = id;
+        this.seqNo = seqNo;
+        this.primaryTerm = primaryTerm;
+        // Note: pre 6.0 will not have seq# nor primary terms stored in their indices. When a replica
+        // is on a 6.x node while the primary is on 5.x, the documents will not have a sequence number but
+        // will have a primary term. We therefore can't assert on consistency between the two.
+        assert exists || (seqNo == UNASSIGNED_SEQ_NO && primaryTerm == UNASSIGNED_PRIMARY_TERM) :
+            "doc not found but seqNo/primaryTerm are set";
+        this.version = version;
+        this.exists = exists;
+        this.source = source;
+        this.fields = fields;
+        if (this.fields == null) {
+            this.fields = emptyMap();
+        }
+    }
+

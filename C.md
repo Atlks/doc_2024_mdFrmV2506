@@ -1,0 +1,80 @@
+C# 8 9 10 11 重大新特性
+
+
+C# 3.0
+
+
+1. 类型推断
+
+申明变量的时候，可以不用直指定类型：
+Lamda表达式
+
+可以看成是对匿名方法的一个语法上的简化，但是λ表达式同时可以装换为表达式树类型。
+C#4
+3. 可选参数，命名参数
+
+C# 5
+
+
+Async streams 异步流
+C# 5.0 的 async/await 特性使您可以用非常简单的代码消费（或生产）异步结果, 而无需回调：
+在.Net 4.5中，通过async和await两个关键字，引入了一种新的基于任务的异步编程模型（TAP）。在这种方式下，可以通过类似同步方式编写异步代码，极大简化了异步编程模型。如下式一个简单的实例：
+
+C#6
+引用静态类Using Static　
+
+ 在Using中可以指定一个静态类，然后可以在随后的代码中直接使用静态的成员
+
+ 
+
+4、空值判断Null-conditional operators　　
+
+ 直接来看代码和运行结果
+字符串嵌入值 　
+8、异常过滤器 (Exception filters)　
+C# 7.0
+ C# 7 中的元组（ValueTuple）解决了上述两个缺点：
+1. out 变量（out variables）
+
+5. 局部函数（Local functions）
+
+ C# 7 中的一个功能“局部函数”，如下所示：
+
+
+C# 8 重要新功能 1. **异步流 (Asynchronous Streams)*
+可空引用类型 (Nullable reference types)：
+默认接口方法 (Default interface methods)：
+索引和范围
+
+C#9
+
+3 顶层程序（Top-Level Programs)
+通常，我们写一个简单的C#程序，都必然会有大量的代码：
+
+C# 10：
+引入了 C# 10 语言特性，包括全局 using 指令、文件范围的命名空间、简化的 Lambda 表达式和记录结构等。
+全局 using 指令 (Global using directives)：
+允许在项目中一次性声明 using 指令，这样在每个文件中都不需要重复声明。
+示例：
+
+csharp
+
+
+Copy code
+
+
+global using System;global using System.Collections.Generic;
+
+
+常量内插字符串 (Constant interpolated strings)：
+允许常量字符串中使用内插表达式。
+改进的 lambda 表达式 (Improved lambda expressions)：
+支持声明返回类型和属性
+C# 11 重要新功能
+
+原始字符串字面量 (Raw string literals)：
+
+允许多行字符串字面量，并保留原始格式。
+列表模式 (List patterns)：
+允许匹配列表的模式，使模式匹配功能更加强大。
+

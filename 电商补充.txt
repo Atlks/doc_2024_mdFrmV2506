@@ -1,0 +1,4 @@
+
+
+
+drop TABLE admin.wp_woocommerce_attribute_taxonomies
